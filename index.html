@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하이브리드 이미징 1차 과제</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 스크롤바 없애기 */
+        }
+
+        .container {
+            display: none; /* 초기에는 숨김 */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #myVideo {
+            width: 640px;
+            height: 360px;
+        }
+
+        #loadingVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 비디오를 화면에 맞게 조정 */
+            z-index: 10; /* 로딩 비디오를 최상위에 위치 */
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+        }
+
+        .btn {
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 30px 0; /* Adjusted margin for spacing between buttons */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn:active {
+            background-color: #3e8e41;
+        }
+
+        #currentTime {
+            margin-top: 10px; /* Adjusted margin for spacing below the button */
+            color: white;
+            font-size: 8px;
+        }
+
+    </style>
+</head>
+<body>
+    <video id="loadingVideo" autoplay muted>
+        <source src="loading.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <input type="button" class="btn" name="real time" value="real time" onclick="window.location.href = window.location.href;">
+        <div id="currentTime"></div> <!-- 현재 시간 표시를 위한 요소 -->
+        <div class="video-container">
+            <video id="myVideo" muted loop>
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="btn-container">
+                <input type="button" value="transparent" id="button1" class="btn">
+                <input type="button" value="curiosity" id="button2" class="btn">
+                <input type="button" value="embracing" id="button3" class="btn">
+                <input type="button" value="extroverted" id="button4" class="btn">
+            </div>
+        </div>
+    </div>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadingVideo = document.getElementById('loadingVideo');
+        var mainContainer = document.querySelector('.container');
+        var mainVideo = document.getElementById('myVideo');
+        var currentTimeDisplay = document.getElementById('currentTime'); // 현재 시간 표시 요소
+        
+        // 모바일 기기 감지
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // 경고창 띄우기
+            alert("모바일 환경에서는 해킹 사이트가 작동되지 않습니다. errorcode:826");
+            // 다른 페이지로 리디렉션
+            window.location.href = "https://www.google.com";
+            return; // 모바일 기기인 경우 이후 코드를 실행하지 않음
+        }
+
+        // 현재 시간에 따라 비디오 소스 결정
+        var date = new Date();
+        var hours = date.getHours();
+        var videoSrc;
+
+        if (hours >= 0 && hours < 4) {
+            videoSrc = 'video6.mp4';
+        } else if (hours >= 4 && hours < 8) {
+            videoSrc = 'videono.mp4';
+        } else if (hours >= 8 && hours < 12) {
+            videoSrc = 'videono.mp4';
+        } else if (hours >= 12 && hours < 16) {
+            videoSrc = 'video5.mp4';
+        } else if (hours >= 16 && hours < 20) {
+            videoSrc = 'video5.mp4';
+        } else {
+            videoSrc = 'video6.mp4';
+        }
+
+        // 로딩 비디오가 끝나면 메인 비디오로 전환
+        loadingVideo.addEventListener('ended', function() {
+            var source = mainVideo.getElementsByTagName('source')[0];
+            source.src = videoSrc;
+            mainVideo.load();
+            loadingVideo.style.display = 'none';
+            mainContainer.style.display = 'flex';
+            mainVideo.play().catch(function(error) {
+                console.log('Auto-play was prevented:', error);
+            });
+        });
+
+        // 비디오 소스를 변경하고 재생하는 함수
+        function changeVideo(newSrc) {
+            var source = mainVideo.getElementsByTagName('source')[0];
+            source.src = newSrc;
+            mainVideo.load();
+            mainVideo.play().catch(function(error) {
+                console.log('Auto-play was prevented:', error);
+            });
+        }
+
+
+        // 비디오 소스를 변경하고 재생하는 함수
+        function changeVideo(newSrc) {
+            var source = mainVideo.getElementsByTagName('source')[0];
+            source.src = newSrc;
+            mainVideo.load();
+            mainVideo.play().catch(function(error) {
+                console.log('Auto-play was prevented:', error);
+            });
+        }
+
+        // 각 버튼에 이벤트 리스너 추가
+        document.getElementById('button1').addEventListener('click', function() {
+            changeVideo('videoa.mp4');
+        });
+
+        document.getElementById('button2').addEventListener('click', function() {
+            changeVideo('videob.mp4');
+        });
+
+        document.getElementById('button3').addEventListener('click', function() {
+            changeVideo('videoc.mp4');
+        });
+
+        document.getElementById('button4').addEventListener('click', function() {
+            changeVideo('videod.mp4');
+        });
+
+        // 현재 시간을 표시하는 함수
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            currentTimeDisplay.textContent = `현재 시각: ${hours}:${minutes}:${seconds}`;
+        }
+
+        // 시간 업데이트 인터벌 설정 (1초마다)
+        setInterval(updateTime, 1000);
+
+        // 페이지 로드 시 즉시 시간 업데이트
+        updateTime();
+    });
+
+</script>
+</body>
+</html>
